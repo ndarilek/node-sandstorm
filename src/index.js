@@ -14,20 +14,20 @@ export const newHackSessionContext = (sessionId) => {
 
 export const sandstormMiddleware = (req, res, next) => {
   req.sandstorm = {
-    sessionId: req.headers["X-Sandstorm-Session-Id"],
+    sessionId: req.headers["x-sandstorm-session-id"],
     user: {
-      name: unescape(req.headers["X-Sandstorm-Username"]),
-      id: req.headers["X-Sandstorm-User-Id"],
-      tabId: req.headers["X-Sandstorm-Tab-Id"],
-      preferredHandle: req.headers["X-Sandstorm-Preferred-Handle"],
-      picture: req.headers["X-Sandstorm-User-Picture"],
-      pronouns: req.headers["X-Sandstorm-User-Pronouns"]
+      name: unescape(req.headers["x-sandstorm-username"]),
+      id: req.headers["x-sandstorm-user-id"],
+      tabId: req.headers["x-sandstorm-tab-id"],
+      preferredHandle: req.headers["x-sandstorm-preferred-handle"],
+      picture: req.headers["x-sandstorm-user-picture"],
+      pronouns: req.headers["x-sandstorm-user-pronouns"]
     },
     hasPermission: (permission) => req.sandstorm.permissions && req.sandstorm.permissions.indexOf(permission) != -1,
     hackSessionContext: () => newHackSessionContext(req.sandstorm.sessionId)
   }
-  if(req.headers["X-Sandstorm-Permissions"])
-    req.sandstorm.user.permissions = req.headers["X-Sandstorm-Permissions"].split(",")
+  if(req.headers["x-sandstorm-permissions"])
+    req.sandstorm.user.permissions = req.headers["x-sandstorm-permissions"].split(",")
   else
     req.sandstorm.user.permissions = []
   next()
